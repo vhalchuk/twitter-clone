@@ -37,7 +37,7 @@ npm install
 5. Push the database schema to your local mySQL database
 
 ```
-npx prisma db seed
+npx prisma db push
 ```
 
 6. Seed the database with mock data
