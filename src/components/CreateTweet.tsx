@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { trpc } from "../utils/trpc";
 import { tweetSchema } from "../schemas/tweet";
+import { Button } from "./Button";
 
 export const CreateTweet: React.FC = () => {
   const [text, setText] = useState("");
@@ -46,21 +47,7 @@ export const CreateTweet: React.FC = () => {
         placeholder="What's happening?"
       />
       {error && <div className="text-red-400">{error}</div>}
-      <button
-        type="submit"
-        className={`
-          w-fit
-          self-end
-          rounded-full
-          bg-blue-400
-          px-4 py-2
-          text-white
-          outline-blue-300
-          hover:bg-blue-500
-        `}
-      >
-        Tweet
-      </button>
+      <Button type="submit">Tweet</Button>
     </form>
   );
 };
