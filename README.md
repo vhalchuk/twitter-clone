@@ -14,23 +14,32 @@ You will need to have Node.js and npm installed on your machine in order to run 
 
 ### Installing
 
-
 1. Clone the repository to your local machine
+
 ```
 git clone https://github.com/vhalchuk/twitter-clone.git
 ```
 
 2. Navigate to the project directory
+
 ```
 cd twitter-clone
 ```
 
 3. Install the dependencies
+
 ```
 npm install
 ```
 
-4. Start the development server
+4. Run `postinstall` script which will publish the database schema to your local database
+
+```
+npm run postinstall
+```
+
+5. Start the development server
+
 ```
 npm run dev
 ```
