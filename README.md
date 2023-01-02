@@ -32,19 +32,21 @@ cd twitter-clone
 npm install
 ```
 
-4. Run `postinstall` script which will publish the database schema to your local database
+4. Create .env file in the root directory and add the following environment variables as shown in [.env.example](.env.example)
+
+5. Push the database schema to your local mySQL database
 
 ```
-npm run postinstall
+npx prisma db seed
 ```
 
-5. Start the development server
+6. Seed the database with mock data
 
 ```
-npm run dev
+npx prisma db seed
 ```
 
-The app will now be running on [http://localhost:5173](http://localhost:5173)
+The app will now be running on [http://localhost:3000](http://localhost:3000)
 
 ## Built With [T3 stack](https://create.t3.gg/)
 
