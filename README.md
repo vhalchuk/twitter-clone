@@ -55,6 +55,7 @@ The app will now be running on [http://localhost:3000](http://localhost:3000)
 - [tRPC](https://trpc.io/) - The API framework used
 - [Prisma](https://prisma.io/) - The database framework used
 - [Tailwind CSS](https://tailwindcss.com/) - The CSS framework used
+- [Next.js](https://nextjs.org/) - The front end framework used
 - [NextAuth.js](https://next-auth.js.org/) - The authentication framework used
 
 ## Author
