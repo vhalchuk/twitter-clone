@@ -12,10 +12,7 @@ const Home: NextPage = () => {
         <title>Twitter clone</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Container
-        component="main"
-        className="h-screen border-x border-slate-50 p-2 lg:p-8"
-      >
+      <Container component="main" className="h-screen border-x border-gray-100">
         <Timeline />
       </Container>
       <LoggedOutBanner />

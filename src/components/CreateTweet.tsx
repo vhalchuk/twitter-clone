@@ -40,7 +40,7 @@ export const CreateTweet: React.FC = () => {
           w-full
           resize-none
           border-b
-          border-slate-50
+          border-gray-100
           p-4
           outline-blue-300
         `}
