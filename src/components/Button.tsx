@@ -7,6 +7,7 @@ type ButtonProps = {
   type?: "submit" | "reset" | "button";
   variant?: "primary" | "secondary";
   className?: string;
+  disabled?: boolean;
 };
 
 const commonClasses = `
@@ -15,6 +16,7 @@ const commonClasses = `
   rounded-full
   px-4 py-2
   font-semibold
+  cursor-pointer
 `;
 
 const primaryClasses = `
@@ -29,24 +31,50 @@ const secondaryClasses = `
   hover:bg-gray-100
 `;
 
+const disabledClasses = `
+hover:cursor-not-allowed
+`;
+
+const disabledPrimaryClasses = `
+  hover:cursor-not-allowed
+  bg-gray-300
+  hover:bg-gray-300
+`;
+
+const disabledSecondaryClasses = `
+  hover:cursor-not-allowed
+  bg-gray-100
+  hover:bg-gray-100
+  text-gray-300
+`;
+
 export const Button: React.FC<ButtonProps> = ({
   children,
   onClick,
   type,
   variant = "primary",
   className,
+  disabled,
 }) => {
   const classNames = cx(
     commonClasses,
     {
       [primaryClasses]: variant === "primary",
       [secondaryClasses]: variant === "secondary",
+      [disabledClasses]: disabled,
+      [disabledPrimaryClasses]: variant === "primary" && disabled,
+      [disabledSecondaryClasses]: variant === "secondary" && disabled,
     },
     className
   );
 
   return (
-    <button type={type} onClick={onClick} className={classNames}>
+    <button
+      type={type}
+      onClick={onClick}
+      className={classNames}
+      disabled={disabled}
+    >
       {children}
     </button>
   );
