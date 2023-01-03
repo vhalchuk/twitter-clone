@@ -1,16 +1,10 @@
 import React from "react";
-import { signIn, useSession } from "next-auth/react";
+import { signIn } from "next-auth/react";
 
 import { Button } from "./Button";
 import { Container } from "./Container";
 
 export const LoggedOutBanner: React.FC = () => {
-  const { data: session } = useSession();
-
-  if (session) {
-    return null;
-  }
-
   return (
     <>
       <div className="fixed bottom-0 left-0 w-full bg-blue-400 p-2">

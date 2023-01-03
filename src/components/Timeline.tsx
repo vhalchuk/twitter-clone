@@ -3,8 +3,10 @@ import { CreateTweet } from "./CreateTweet";
 import { trpc } from "../utils/trpc";
 import { Tweet } from "./Tweet";
 import { Button } from "./Button";
+import { useSession } from "next-auth/react";
 
 export const Timeline: React.FC = () => {
+  const { data: session } = useSession();
   const { data, hasNextPage, fetchNextPage, isFetching } =
     trpc.tweet.timeline.useInfiniteQuery(
       {
@@ -23,7 +25,7 @@ export const Timeline: React.FC = () => {
 
   return (
     <div className="flex flex-col gap-4 py-4">
-      <CreateTweet />
+      {session && <CreateTweet />}
       <div className="flex flex-col border-t border-gray-100">
         {tweets.map((tweet) => (
           <Tweet tweet={tweet} key={tweet.id} />

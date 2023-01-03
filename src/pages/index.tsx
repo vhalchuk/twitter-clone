@@ -4,8 +4,11 @@ import Head from "next/head";
 import { Timeline } from "../components/Timeline";
 import { Container } from "../components/Container";
 import { LoggedOutBanner } from "../components/LoggedOutBanner";
+import { useSession } from "next-auth/react";
 
 const Home: NextPage = () => {
+  const { data: session } = useSession();
+
   return (
     <>
       <Head>
@@ -14,7 +17,7 @@ const Home: NextPage = () => {
       </Head>
       <Container component="main" className="h-screen border-x border-gray-100">
         <Timeline />
-        <LoggedOutBanner />
+        {!session && <LoggedOutBanner />}
       </Container>
     </>
   );
