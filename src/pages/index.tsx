@@ -14,8 +14,8 @@ const Home: NextPage = () => {
       </Head>
       <Container component="main" className="h-screen border-x border-gray-100">
         <Timeline />
+        <LoggedOutBanner />
       </Container>
-      <LoggedOutBanner />
     </>
   );
 };

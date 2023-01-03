@@ -12,20 +12,23 @@ export const LoggedOutBanner: React.FC = () => {
   }
 
   return (
-    <div className="fixed bottom-0 left-0 w-full bg-blue-400 p-2">
-      <Container className="flex justify-between gap-2 align-middle">
-        <div className="text-white">
-          <p className="text-xl font-semibold">Don’t miss what’s happening</p>
-          <p className="text-sm">People on Twitter are the first to know.</p>
-        </div>
-        <Button
-          variant="secondary"
-          className="shrink-0 self-center"
-          onClick={() => signIn()}
-        >
-          Log in
-        </Button>
-      </Container>
-    </div>
+    <>
+      <div className="fixed bottom-0 left-0 w-full bg-blue-400 p-2">
+        <Container className="flex justify-between gap-2 align-middle">
+          <div className="text-white">
+            <p className="text-xl font-semibold">Don’t miss what’s happening</p>
+            <p className="text-sm">People on Twitter are the first to know.</p>
+          </div>
+          <Button
+            variant="secondary"
+            className="shrink-0 self-center"
+            onClick={() => signIn()}
+          >
+            Log in
+          </Button>
+        </Container>
+      </div>
+      <div className="h-16" />
+    </>
   );
 };

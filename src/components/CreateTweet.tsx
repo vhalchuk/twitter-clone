@@ -31,7 +31,7 @@ export const CreateTweet: React.FC = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex w-full flex-col gap-4 rounded-md p-4"
+      className="flex w-full flex-col gap-4 rounded-md px-4"
     >
       <textarea
         onChange={(e) => setText(e.target.value)}
