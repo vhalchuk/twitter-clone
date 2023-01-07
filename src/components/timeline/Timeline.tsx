@@ -3,7 +3,7 @@ import { useSession } from "next-auth/react";
 
 import { CreateTweet } from "../CreateTweet";
 import { trpc } from "../../utils/trpc";
-import { Tweet } from "../Tweet";
+import { Tweet } from "../tweet/Tweet";
 import { useScrollPosition } from "./useScrollPosition";
 
 export const Timeline: React.FC = () => {
