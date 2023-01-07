@@ -31,12 +31,14 @@ export const Timeline: React.FC = () => {
           <Tweet tweet={tweet} key={tweet.id} />
         ))}
         <div className="flex place-content-center pt-2">
-          <Button
-            onClick={handleLoadMore}
-            disabled={!hasNextPage || isFetching}
-          >
-            more
-          </Button>
+          {hasNextPage && (
+            <Button
+              onClick={handleLoadMore}
+              disabled={!hasNextPage || isFetching}
+            >
+              {isFetching ? "Loading..." : "Load more"}
+            </Button>
+          )}
         </div>
       </div>
     </div>
