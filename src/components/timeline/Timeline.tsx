@@ -1,9 +1,10 @@
 import React, { useEffect } from "react";
 import { useSession } from "next-auth/react";
 
-import { CreateTweet } from "./CreateTweet";
-import { trpc } from "../utils/trpc";
-import { Tweet } from "./Tweet";
+import { CreateTweet } from "../CreateTweet";
+import { trpc } from "../../utils/trpc";
+import { Tweet } from "../Tweet";
+import { useScrollPosition } from "./useScrollPosition";
 
 export const Timeline: React.FC = () => {
   const scrollPosition = useScrollPosition();
@@ -40,30 +41,3 @@ export const Timeline: React.FC = () => {
     </div>
   );
 };
-
-/**
- * This custom hook tracks the current scroll position of the webpage and returns it as a percentage
- */
-function useScrollPosition() {
-  const [scrollPosition, setScrollPosition] = React.useState(0);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const height =
-        document.documentElement.scrollHeight -
-        document.documentElement.clientHeight;
-      const winScroll =
-        document.body.scrollTop || document.documentElement.scrollTop;
-      const scrolled = Math.floor((winScroll / height) * 100);
-      setScrollPosition(scrolled);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
-
-  return scrollPosition;
-}

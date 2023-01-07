@@ -1,7 +1,7 @@
 import { type NextPage } from "next";
 import Head from "next/head";
 
-import { Timeline } from "../components/Timeline";
+import { Timeline } from "../components/timeline/Timeline";
 import { Container } from "../components/Container";
 import { LoggedOutBanner } from "../components/LoggedOutBanner";
 import { useSession } from "next-auth/react";
