@@ -19,9 +19,10 @@ export const LikeButton: React.FC<LikeButtonProps> = ({
   const buttonClassNames = classNames(
     "flex items-center gap-1 text-gray-400 fill-gray-400 w-fit",
     "transition ease-in-out hover:text-rose-500 hover:fill-rose-500",
+    "disabled:cursor-default",
     {
       "text-rose-500 fill-rose-500": liked,
-      "hover:cursor-default hover:text-gray-400 hover:fill-gray-400": disabled,
+      "disabled:hover:text-gray-400 disabled:hover:fill-gray-400": !liked,
     },
     className
   );
