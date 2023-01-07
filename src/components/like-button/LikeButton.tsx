@@ -2,6 +2,7 @@ import React from "react";
 import classNames from "classnames";
 import { LikeFilledIcon } from "./LikeFilledIcon";
 import { LikeOutlinedIcon } from "./LikeOutlinedIcon";
+import { commonClasses, likedClasses, unlikedClasses } from "./styles";
 
 type LikeButtonProps = {
   liked: boolean;
@@ -19,12 +20,10 @@ export const LikeButton: React.FC<LikeButtonProps> = ({
   disabled,
 }) => {
   const buttonClassNames = classNames(
-    "flex items-center gap-1 text-gray-400 fill-gray-400 w-fit",
-    "transition ease-in-out hover:text-rose-500 hover:fill-rose-500",
-    "disabled:cursor-default",
+    commonClasses,
     {
-      "text-rose-500 fill-rose-500": liked,
-      "disabled:hover:text-gray-400 disabled:hover:fill-gray-400": !liked,
+      [likedClasses]: liked,
+      [unlikedClasses]: !liked,
     },
     className
   );
