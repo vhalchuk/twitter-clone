@@ -19,7 +19,6 @@ export const useUpdateLikesQueryCache = () => {
     queryClient.setQueryData(
       [["tweet", "timeline"], { input: {}, type: "infinite" }],
       (oldData) => {
-        console.log("oldData", oldData);
         const newData = oldData as InfiniteData<
           RouterOutputs["tweet"]["timeline"]
         >;
