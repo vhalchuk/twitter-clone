@@ -50,6 +50,7 @@ model User {
   accounts      Account[]
   sessions      Session[]
   tweets        Tweet[]
+  likes         Like[]
 }
 
 model VerificationToken {
@@ -67,4 +68,17 @@ model Tweet {
     text      String
     author    User     @relation(fields: [authorId], references: [id])
     authorId  String
+    likes     Like[]
+}
+
+model Like {
+    id        String   @id @default(cuid())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    tweet     Tweet    @relation(fields: [tweetId], references: [id])
+    tweetId   String
+    author    User     @relation(fields: [authorId], references: [id])
+    authorId  String
+
+    @@unique([tweetId, authorId])
 }

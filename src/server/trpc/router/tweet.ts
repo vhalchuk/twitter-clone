@@ -31,6 +31,8 @@ export const tweetRouter = router({
       const { cursor } = input;
       const TAKE = 30;
 
+      const authorId = ctx.session?.user?.id;
+
       const tweets = await prisma.tweet.findMany({
         take: TAKE + 1,
         cursor: cursor ? { id: cursor } : undefined,
@@ -43,6 +45,19 @@ export const tweetRouter = router({
               name: true,
               image: true,
               id: true,
+            },
+          },
+          likes: {
+            where: {
+              authorId,
+            },
+            select: {
+              authorId: true,
+            },
+          },
+          _count: {
+            select: {
+              likes: true,
             },
           },
         },
@@ -60,5 +75,69 @@ export const tweetRouter = router({
         tweets,
         nextCursor,
       };
+    }),
+  like: protectedProcedure
+    .input(
+      z.object({
+        tweetId: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const { prisma, session } = ctx;
+      const { tweetId } = input;
+
+      const tweet = await prisma.tweet.findUnique({
+        where: {
+          id: tweetId,
+        },
+      });
+
+      if (!tweet) {
+        throw new Error("Tweet not found");
+      }
+
+      return prisma.like.create({
+        data: {
+          tweet: {
+            connect: {
+              id: tweetId,
+            },
+          },
+          author: {
+            connect: {
+              id: session.user.id,
+            },
+          },
+        },
+      });
+    }),
+  unlike: protectedProcedure
+    .input(
+      z.object({
+        tweetId: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const { prisma, session } = ctx;
+      const { tweetId } = input;
+
+      const tweet = await prisma.tweet.findUnique({
+        where: {
+          id: tweetId,
+        },
+      });
+
+      if (!tweet) {
+        throw new Error("Tweet not found");
+      }
+
+      return prisma.like.delete({
+        where: {
+          tweetId_authorId: {
+            tweetId,
+            authorId: session.user.id,
+          },
+        },
+      });
     }),
 });
