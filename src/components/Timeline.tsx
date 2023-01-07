@@ -1,11 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useSession } from "next-auth/react";
+
 import { CreateTweet } from "./CreateTweet";
 import { trpc } from "../utils/trpc";
 import { Tweet } from "./Tweet";
-import { Button } from "./Button";
-import { useSession } from "next-auth/react";
 
 export const Timeline: React.FC = () => {
+  const scrollPosition = useScrollPosition();
   const { data: session } = useSession();
   const { data, hasNextPage, fetchNextPage, isFetching } =
     trpc.tweet.timeline.useInfiniteQuery(
@@ -17,9 +18,11 @@ export const Timeline: React.FC = () => {
 
   const tweets = data?.pages.flatMap((page) => page.tweets) ?? [];
 
-  const handleLoadMore = () => {
-    fetchNextPage();
-  };
+  useEffect(() => {
+    if (hasNextPage && !isFetching && scrollPosition > 90) {
+      fetchNextPage();
+    }
+  }, [hasNextPage, isFetching, scrollPosition, fetchNextPage]);
 
   return (
     <div className="flex flex-col gap-4 py-4">
@@ -28,17 +31,39 @@ export const Timeline: React.FC = () => {
         {tweets.map((tweet) => (
           <Tweet tweet={tweet} key={tweet.id} />
         ))}
-        <div className="flex place-content-center pt-2">
-          {hasNextPage && (
-            <Button
-              onClick={handleLoadMore}
-              disabled={!hasNextPage || isFetching}
-            >
-              {isFetching ? "Loading..." : "Load more"}
-            </Button>
-          )}
-        </div>
+        {!hasNextPage && (
+          <p className="py-4 text-center text-gray-500">
+            You have reached the end of the timeline
+          </p>
+        )}
       </div>
     </div>
   );
 };
+
+/**
+ * This custom hook tracks the current scroll position of the webpage and returns it as a percentage
+ */
+function useScrollPosition() {
+  const [scrollPosition, setScrollPosition] = React.useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const height =
+        document.documentElement.scrollHeight -
+        document.documentElement.clientHeight;
+      const winScroll =
+        document.body.scrollTop || document.documentElement.scrollTop;
+      const scrolled = Math.floor((winScroll / height) * 100);
+      setScrollPosition(scrolled);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  return scrollPosition;
+}
