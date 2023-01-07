@@ -5,22 +5,20 @@ import { type TweetProps } from "./Tweet";
 
 // Separates component's logic from presentation logic
 export const useTweet = ({ tweet }: TweetProps) => {
-  const { author } = tweet;
+  const { author, isLiked } = tweet;
 
   const { data: session } = useSession();
   const updateLikesQueryCache = useUpdateLikesQueryCache();
   const likeMutation = trpc.tweet.like.useMutation({
-    onSuccess: (data, variables) => {
-      updateLikesQueryCache({ data, variables, action: "like" });
+    onSuccess: (data, { tweetId }) => {
+      updateLikesQueryCache(tweetId, "like");
     },
   }).mutateAsync;
   const unlikeMutation = trpc.tweet.unlike.useMutation({
-    onSuccess: (data, variables) => {
-      updateLikesQueryCache({ data, variables, action: "unlike" });
+    onSuccess: (data, { tweetId }) => {
+      updateLikesQueryCache(tweetId, "unlike");
     },
   }).mutateAsync;
-
-  const isLiked = tweet.likes.length > 0;
 
   const toggleLike = async () => {
     if (isLiked) {

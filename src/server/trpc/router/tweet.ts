@@ -95,8 +95,27 @@ export const tweetRouter = router({
         nextCursor = nextItem.id;
       }
 
+      // adds "isLiked" property to each tweet
+      const normalizedTweets = tweets.map((tweet) => {
+        type NormalizedTweet = Omit<typeof tweet, "likes"> & {
+          isLiked: boolean;
+          likes?: typeof tweet["likes"];
+        };
+
+        const normalizedTweet: NormalizedTweet = {
+          ...tweet,
+          isLiked: authorId
+            ? tweet.likes.some((like) => like.authorId === authorId)
+            : false,
+        };
+
+        delete normalizedTweet.likes;
+
+        return normalizedTweet;
+      });
+
       return {
-        tweets,
+        tweets: normalizedTweets,
         nextCursor,
       };
     }),

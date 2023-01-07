@@ -6,17 +6,10 @@ import { INPUT } from "../timeline/const";
 export const useUpdateLikesQueryCache = () => {
   const queryClient = useQueryClient();
 
-  return function updateLikesQueryCache({
-    variables,
-    data,
-    action,
-  }: {
-    variables: {
-      tweetId: string;
-    };
-    data: RouterOutputs["tweet"]["like"];
-    action: "like" | "unlike";
-  }) {
+  return function updateLikesQueryCache(
+    tweetId: string,
+    action: "like" | "unlike"
+  ) {
     queryClient.setQueryData(
       [["tweet", "timeline"], { input: INPUT, type: "infinite" }],
       (oldData) => {
@@ -29,10 +22,10 @@ export const useUpdateLikesQueryCache = () => {
         const newTweets = newData.pages.map((page) => {
           return {
             tweets: page.tweets.map((tweet) => {
-              if (tweet.id === variables.tweetId) {
+              if (tweet.id === tweetId) {
                 return {
                   ...tweet,
-                  likes: action === "like" ? [data.authorId] : [],
+                  isLiked: action === "like",
                   _count: {
                     likes: tweet._count.likes + value,
                   },
