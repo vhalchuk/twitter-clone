@@ -44,11 +44,48 @@ async function run() {
     }
   });
 
-  const createTweets = tweets.map((tweet) =>
-    prisma.tweet.create({ data: tweet })
+  const createTweets = faker.helpers
+    .shuffle(tweets)
+    .map((tweet) => prisma.tweet.create({ data: tweet }));
+
+  const createdTweets = await prisma.$transaction(createTweets);
+
+  const likesData: { tweetId: string; userId: string }[] = [];
+
+  users.forEach((user) => {
+    // Get a random number of tweets to like (in percentage from 20% to 80%)
+    const likesCoverage = faker.datatype.number({ min: 20, max: 80 }) * 0.01;
+    const amountOfLikes = Math.floor(createdTweets.length * likesCoverage);
+    const tweetsToLike = faker.helpers
+      .shuffle(createdTweets)
+      .slice(0, amountOfLikes);
+
+    tweetsToLike.forEach((tweet) => {
+      likesData.push({
+        tweetId: tweet.id,
+        userId: user.id,
+      });
+    });
+  });
+
+  const createLikes = likesData.map((like) =>
+    prisma.like.create({
+      data: {
+        tweet: {
+          connect: {
+            id: like.tweetId,
+          },
+        },
+        author: {
+          connect: {
+            id: like.userId,
+          },
+        },
+      },
+    })
   );
 
-  await prisma.$transaction(createTweets);
+  await prisma.$transaction(createLikes);
 
   await prisma.$disconnect();
 }
