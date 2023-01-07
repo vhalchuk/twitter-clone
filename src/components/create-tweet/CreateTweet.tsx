@@ -1,13 +1,21 @@
 import React, { useState } from "react";
-import { trpc } from "../utils/trpc";
-import { tweetSchema } from "../schemas/tweet";
-import { Button } from "./button/Button";
+import { trpc } from "../../utils/trpc";
+import { tweetSchema } from "../../schemas/tweet";
+import { Button } from "../button/Button";
+import { useAddTweetToQueryCache } from "./useAddTweetToQueryCache";
 
 export const CreateTweet: React.FC = () => {
   const [text, setText] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const utils = trpc.useContext();
+  const addTweetToQueryCache = useAddTweetToQueryCache();
 
   const { mutateAsync } = trpc.tweet.createTweet.useMutation({
+    onSuccess: (newTweet) => {
+      setText("");
+      addTweetToQueryCache(newTweet);
+      utils.tweet.timeline.invalidate();
+    },
     onError: () => {
       setError("Failed to create tweet");
     },
@@ -20,7 +28,6 @@ export const CreateTweet: React.FC = () => {
 
     if (result.success) {
       mutateAsync({ text });
-      setText("");
       setError(null);
     } else {
       const message = result.error.issues[0]?.message || "Invalid input";
@@ -34,6 +41,7 @@ export const CreateTweet: React.FC = () => {
       className="flex w-full flex-col gap-4 rounded-md px-4"
     >
       <textarea
+        value={text}
         onChange={(e) => setText(e.target.value)}
         className={`
           h-20

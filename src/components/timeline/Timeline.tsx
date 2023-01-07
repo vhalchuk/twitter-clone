@@ -1,21 +1,19 @@
 import React, { useEffect } from "react";
 import { useSession } from "next-auth/react";
 
-import { CreateTweet } from "../CreateTweet";
+import { CreateTweet } from "../create-tweet/CreateTweet";
 import { trpc } from "../../utils/trpc";
 import { Tweet } from "../tweet/Tweet";
 import { useScrollPosition } from "./useScrollPosition";
+import { INPUT } from "./const";
 
 export const Timeline: React.FC = () => {
   const scrollPosition = useScrollPosition();
   const { data: session } = useSession();
   const { data, hasNextPage, fetchNextPage, isFetching } =
-    trpc.tweet.timeline.useInfiniteQuery(
-      {},
-      {
-        getNextPageParam: (lastPage) => lastPage.nextCursor,
-      }
-    );
+    trpc.tweet.timeline.useInfiniteQuery(INPUT, {
+      getNextPageParam: (lastPage) => lastPage.nextCursor,
+    });
 
   const tweets = data?.pages.flatMap((page) => page.tweets) ?? [];
 

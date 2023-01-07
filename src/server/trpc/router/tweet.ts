@@ -9,6 +9,8 @@ export const tweetRouter = router({
       const { prisma, session } = ctx;
       const { text } = input;
 
+      const authorId = ctx.session?.user?.id;
+
       return prisma.tweet.create({
         data: {
           text,
@@ -18,23 +20,45 @@ export const tweetRouter = router({
             },
           },
         },
+        include: {
+          author: {
+            select: {
+              name: true,
+              image: true,
+              id: true,
+            },
+          },
+          likes: {
+            where: {
+              authorId,
+            },
+            select: {
+              authorId: true,
+            },
+          },
+          _count: {
+            select: {
+              likes: true,
+            },
+          },
+        },
       });
     }),
   timeline: publicProcedure
     .input(
       z.object({
         cursor: z.string().nullish(),
+        take: z.number().min(1).max(50).default(30),
       })
     )
     .query(async ({ ctx, input }) => {
       const { prisma } = ctx;
-      const { cursor } = input;
-      const TAKE = 30;
+      const { cursor, take } = input;
 
       const authorId = ctx.session?.user?.id;
 
       const tweets = await prisma.tweet.findMany({
-        take: TAKE + 1,
+        take: take + 1,
         cursor: cursor ? { id: cursor } : undefined,
         orderBy: {
           createdAt: "desc",
@@ -65,7 +89,7 @@ export const tweetRouter = router({
 
       let nextCursor: typeof cursor | undefined;
 
-      if (tweets.length > TAKE) {
+      if (tweets.length > take) {
         const nextItem = tweets.pop() as typeof tweets[number];
 
         nextCursor = nextItem.id;
