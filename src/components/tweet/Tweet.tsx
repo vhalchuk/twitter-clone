@@ -1,7 +1,7 @@
 import React from "react";
 import type { RouterOutputs } from "../../utils/trpc";
 import Image from "next/image";
-import { LikeButton } from "../LikeButton";
+import { LikeButton } from "../like-button/LikeButton";
 import { dayjs } from "../../utils/dayjs";
 import { useTweet } from "./useTweet";
 
