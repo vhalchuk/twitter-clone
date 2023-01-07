@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { trpc } from "../utils/trpc";
 import { tweetSchema } from "../schemas/tweet";
-import { Button } from "./Button";
+import { Button } from "./button/Button";
 
 export const CreateTweet: React.FC = () => {
   const [text, setText] = useState("");

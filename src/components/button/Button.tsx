@@ -1,5 +1,13 @@
 import React from "react";
 import cx from "classnames";
+import {
+  commonClasses,
+  disabledClasses,
+  disabledPrimaryClasses,
+  disabledSecondaryClasses,
+  primaryClasses,
+  secondaryClasses,
+} from "./styles";
 
 type ButtonProps = {
   children: React.ReactNode;
@@ -9,44 +17,6 @@ type ButtonProps = {
   className?: string;
   disabled?: boolean;
 };
-
-const commonClasses = `
-  w-fit
-  self-end
-  rounded-full
-  px-4 py-2
-  font-semibold
-  cursor-pointer
-`;
-
-const primaryClasses = `
-  text-white
-  bg-blue-400
-  hover:bg-blue-500
-  outline-blue-300
-`;
-const secondaryClasses = `
-  text-black
-  bg-white
-  hover:bg-gray-100
-`;
-
-const disabledClasses = `
-hover:cursor-not-allowed
-`;
-
-const disabledPrimaryClasses = `
-  hover:cursor-not-allowed
-  bg-gray-300
-  hover:bg-gray-300
-`;
-
-const disabledSecondaryClasses = `
-  hover:cursor-not-allowed
-  bg-gray-100
-  hover:bg-gray-100
-  text-gray-300
-`;
 
 export const Button: React.FC<ButtonProps> = ({
   children,

@@ -1,7 +1,7 @@
 import React from "react";
 import { signIn } from "next-auth/react";
 
-import { Button } from "./Button";
+import { Button } from "./button/Button";
 import { Container } from "./Container";
 
 export const LoggedOutBanner: React.FC = () => {
