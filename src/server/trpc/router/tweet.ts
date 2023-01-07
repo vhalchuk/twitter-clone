@@ -24,15 +24,15 @@ export const tweetRouter = router({
     .input(
       z.object({
         cursor: z.string().nullish(),
-        limit: z.number().min(1).max(50).default(10),
       })
     )
     .query(async ({ ctx, input }) => {
       const { prisma } = ctx;
-      const { cursor, limit } = input;
+      const { cursor } = input;
+      const TAKE = 30;
 
       const tweets = await prisma.tweet.findMany({
-        take: limit + 1,
+        take: TAKE + 1,
         cursor: cursor ? { id: cursor } : undefined,
         orderBy: {
           createdAt: "desc",
@@ -50,7 +50,7 @@ export const tweetRouter = router({
 
       let nextCursor: typeof cursor | undefined;
 
-      if (tweets.length > limit) {
+      if (tweets.length > TAKE) {
         const nextItem = tweets.pop() as typeof tweets[number];
 
         nextCursor = nextItem.id;

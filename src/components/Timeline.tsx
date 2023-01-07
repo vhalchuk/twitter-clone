@@ -9,9 +9,7 @@ export const Timeline: React.FC = () => {
   const { data: session } = useSession();
   const { data, hasNextPage, fetchNextPage, isFetching } =
     trpc.tweet.timeline.useInfiniteQuery(
-      {
-        limit: 2,
-      },
+      {},
       {
         getNextPageParam: (lastPage) => lastPage.nextCursor,
       }
