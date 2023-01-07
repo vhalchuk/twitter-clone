@@ -1,7 +1,7 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { type RouterOutputs } from "../../utils/trpc";
 import { type InfiniteData } from "@tanstack/query-core";
-import { TAKE } from "../timeline/const";
+import { INPUT, TAKE } from "../timeline/const";
 
 type Tweet = RouterOutputs["tweet"]["createTweet"];
 type Page = {
@@ -16,7 +16,7 @@ export const useAddTweetToQueryCache = () => {
     newTweet: RouterOutputs["tweet"]["createTweet"]
   ) {
     queryClient.setQueryData<InfiniteData<RouterOutputs["tweet"]["timeline"]>>(
-      [["tweet", "timeline"], { input: {}, type: "infinite" }],
+      [["tweet", "timeline"], { input: INPUT, type: "infinite" }],
       (oldData) => {
         if (!oldData) {
           return oldData;

@@ -5,13 +5,11 @@ import { z } from "zod";
 export const tweetRouter = router({
   createTweet: protectedProcedure
     .input(tweetSchema)
-    .mutation(({ ctx, input }) => {
+    .mutation(async ({ ctx, input }) => {
       const { prisma, session } = ctx;
       const { text } = input;
 
-      const authorId = ctx.session?.user?.id;
-
-      return prisma.tweet.create({
+      const tweet = await prisma.tweet.create({
         data: {
           text,
           author: {
@@ -28,14 +26,6 @@ export const tweetRouter = router({
               id: true,
             },
           },
-          likes: {
-            where: {
-              authorId,
-            },
-            select: {
-              authorId: true,
-            },
-          },
           _count: {
             select: {
               likes: true,
@@ -43,6 +33,11 @@ export const tweetRouter = router({
           },
         },
       });
+
+      return {
+        ...tweet,
+        isLiked: false,
+      };
     }),
   timeline: publicProcedure
     .input(
