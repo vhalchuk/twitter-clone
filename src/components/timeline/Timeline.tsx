@@ -1,30 +1,14 @@
-import React, { useEffect } from "react";
-import { type RouterInputs, trpc } from "../../utils/trpc";
+import React from "react";
+import { type RouterInputs } from "../../utils/trpc";
 import { Tweet } from "../tweet/Tweet";
-import { useScrollPosition } from "./useScrollPosition";
-import { INPUT } from "./const";
+import { useTimeline } from "./useTimeline";
 
-type TimelineProps = {
+export type TimelineProps = {
   where?: RouterInputs["tweet"]["timeline"]["where"];
 };
 
-export const Timeline: React.FC<TimelineProps> = ({ where = {} }) => {
-  const scrollPosition = useScrollPosition();
-  const { data, hasNextPage, fetchNextPage, isFetching } =
-    trpc.tweet.timeline.useInfiniteQuery(
-      { ...INPUT, where },
-      {
-        getNextPageParam: (lastPage) => lastPage.nextCursor,
-      }
-    );
-
-  const tweets = data?.pages.flatMap((page) => page.tweets) ?? [];
-
-  useEffect(() => {
-    if (hasNextPage && !isFetching && scrollPosition > 90) {
-      fetchNextPage();
-    }
-  }, [hasNextPage, isFetching, scrollPosition, fetchNextPage]);
+export const Timeline: React.FC<TimelineProps> = (props) => {
+  const { tweets, hasNextPage } = useTimeline(props);
 
   return (
     <div className="flex flex-col gap-4">
