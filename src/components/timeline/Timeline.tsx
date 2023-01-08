@@ -10,7 +10,7 @@ export type TimelineProps = {
 };
 
 export const Timeline: React.FC<TimelineProps> = (props) => {
-  const { tweets, hasNextPage, providerValue, isFetching } = useTimeline(props);
+  const { tweets, endReached, providerValue, isFetching } = useTimeline(props);
 
   return (
     <TimelineProvider value={providerValue}>
@@ -24,7 +24,7 @@ export const Timeline: React.FC<TimelineProps> = (props) => {
               Loading more tweets...
             </p>
           )}
-          {!hasNextPage && (
+          {endReached && (
             <p className="py-4 text-center text-gray-500">
               You have reached the end of the timeline
             </p>

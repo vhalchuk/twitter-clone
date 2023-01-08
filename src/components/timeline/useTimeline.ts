@@ -32,5 +32,7 @@ export const useTimeline = ({ where = DEFAULT_WHERE }: TimelineProps) => {
     [input]
   );
 
-  return { tweets, hasNextPage, providerValue, isFetching };
+  const endReached = !hasNextPage && !isFetching;
+
+  return { tweets, endReached, providerValue, isFetching };
 };
