@@ -20,9 +20,7 @@ export const Timeline: React.FC<TimelineProps> = (props) => {
             <Tweet tweet={tweet} key={tweet.id} />
           ))}
           {isFetching && (
-            <p className="py-4 text-center text-gray-500">
-              Loading more tweets...
-            </p>
+            <p className="py-4 text-center text-gray-500">Loading tweets...</p>
           )}
           {endReached && (
             <p className="py-4 text-center text-gray-500">
