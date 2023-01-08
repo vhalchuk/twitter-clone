@@ -1,6 +1,7 @@
-import { useQueryClient } from "@tanstack/react-query";
-import { type RouterOutputs } from "../../utils/trpc";
 import { type InfiniteData } from "@tanstack/query-core";
+import { useQueryClient } from "@tanstack/react-query";
+
+import { type RouterOutputs } from "../../utils/trpc";
 import { TAKE } from "../timeline/const";
 
 type Tweet = RouterOutputs["tweet"]["createTweet"];

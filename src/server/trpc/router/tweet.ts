@@ -1,6 +1,7 @@
-import { protectedProcedure, publicProcedure, router } from "../trpc";
-import { tweetSchema } from "../../../schemas/tweet";
 import { z } from "zod";
+
+import { tweetSchema } from "../../../schemas/tweet";
+import { protectedProcedure, publicProcedure, router } from "../trpc";
 
 export const tweetRouter = router({
   createTweet: protectedProcedure

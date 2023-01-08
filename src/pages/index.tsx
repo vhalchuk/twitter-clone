@@ -1,10 +1,10 @@
 import { type NextPage } from "next";
-import Head from "next/head";
-
-import { Timeline } from "../components/timeline/Timeline";
-import { CreateTweet } from "../components/create-tweet/CreateTweet";
-import React from "react";
 import { useSession } from "next-auth/react";
+import Head from "next/head";
+import React from "react";
+
+import { CreateTweet } from "../components/create-tweet/CreateTweet";
+import { Timeline } from "../components/timeline/Timeline";
 
 const Home: NextPage = () => {
   const { data: session } = useSession();

@@ -1,7 +1,8 @@
 import { useState, type FormEvent } from "react";
+
+import { tweetSchema } from "../../schemas/tweet";
 import { trpc } from "../../utils/trpc";
 import { useAddTweetToQueryCache } from "./useAddTweetToQueryCache";
-import { tweetSchema } from "../../schemas/tweet";
 
 // Separates component's logic from presentation logic
 export const useCreateTweet = () => {

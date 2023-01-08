@@ -1,8 +1,9 @@
 import React from "react";
+
 import { type RouterInputs } from "../../utils/trpc";
 import { Tweet } from "../tweet/Tweet";
-import { useTimeline } from "./useTimeline";
 import { TimelineProvider } from "./TimelineProvider";
+import { useTimeline } from "./useTimeline";
 
 export type TimelineProps = {
   where?: RouterInputs["tweet"]["timeline"]["where"];

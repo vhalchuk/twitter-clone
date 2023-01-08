@@ -1,5 +1,6 @@
-import React from "react";
 import classNames from "classnames";
+import React from "react";
+
 import { LikeFilledIcon } from "./LikeFilledIcon";
 import { LikeOutlinedIcon } from "./LikeOutlinedIcon";
 import { commonClasses, likedClasses, unlikedClasses } from "./styles";

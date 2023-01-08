@@ -1,4 +1,5 @@
 import React, { type FC } from "react";
+
 import type { TimelineProps } from "./Timeline";
 
 export type TimelineContextValue = {

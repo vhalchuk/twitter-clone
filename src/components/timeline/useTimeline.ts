@@ -1,8 +1,9 @@
-import { trpc } from "../../utils/trpc";
-import { TAKE } from "./const";
 import { useMemo } from "react";
+
+import { trpc } from "../../utils/trpc";
 import { type TimelineProps } from "./Timeline";
 import { type TimelineContextValue } from "./TimelineProvider";
+import { TAKE } from "./const";
 import { useInfiniteScroll } from "./useInfiniteScroll";
 
 // Keeps the same reference between renders

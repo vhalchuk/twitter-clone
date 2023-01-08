@@ -1,7 +1,8 @@
 import { useSession } from "next-auth/react";
-import { useUpdateLikesQueryCache } from "./useUpdateLikesQueryCache";
+
 import { trpc } from "../../utils/trpc";
 import { type TweetProps } from "./Tweet";
+import { useUpdateLikesQueryCache } from "./useUpdateLikesQueryCache";
 
 // Separates component's logic from presentation logic
 export const useTweet = ({ tweet }: TweetProps) => {

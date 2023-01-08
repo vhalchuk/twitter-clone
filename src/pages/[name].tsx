@@ -1,7 +1,8 @@
-import { useRouter } from "next/router";
-import { Timeline } from "../components/timeline/Timeline";
 import Head from "next/head";
+import { useRouter } from "next/router";
 import { useMemo } from "react";
+
+import { Timeline } from "../components/timeline/Timeline";
 
 export default function UserPage() {
   const router = useRouter();

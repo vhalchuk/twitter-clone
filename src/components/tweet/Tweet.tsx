@@ -1,10 +1,10 @@
-import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import React from "react";
 
+import { dayjs } from "../../utils/dayjs";
 import type { RouterOutputs } from "../../utils/trpc";
 import { LikeButton } from "../like-button/LikeButton";
-import { dayjs } from "../../utils/dayjs";
 import { useTweet } from "./useTweet";
 
 export type TweetProps = {

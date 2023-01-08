@@ -1,8 +1,8 @@
-import React from "react";
 import { signIn, useSession } from "next-auth/react";
+import React from "react";
 
-import { Button } from "./button/Button";
 import { Container } from "./Container";
+import { Button } from "./button/Button";
 
 export const LoggedOutBanner: React.FC = () => {
   const { data: session } = useSession();
