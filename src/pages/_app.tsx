@@ -6,6 +6,7 @@ import { trpc } from "../utils/trpc";
 import { Container } from "../components/Container";
 import { LoggedOutBanner } from "../components/LoggedOutBanner";
 import "../styles/globals.css";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
@@ -20,6 +21,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
         <Component {...pageProps} />
         <LoggedOutBanner />
       </Container>
+      {process.env.NODE_ENV === "development" && <ReactQueryDevtools />}
     </SessionProvider>
   );
 };
