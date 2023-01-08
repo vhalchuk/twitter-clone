@@ -1,19 +1,22 @@
 import React, { useEffect } from "react";
-import { useSession } from "next-auth/react";
-
-import { CreateTweet } from "../create-tweet/CreateTweet";
-import { trpc } from "../../utils/trpc";
+import { type RouterInputs, trpc } from "../../utils/trpc";
 import { Tweet } from "../tweet/Tweet";
 import { useScrollPosition } from "./useScrollPosition";
 import { INPUT } from "./const";
 
-export const Timeline: React.FC = () => {
+type TimelineProps = {
+  where?: RouterInputs["tweet"]["timeline"]["where"];
+};
+
+export const Timeline: React.FC<TimelineProps> = ({ where = {} }) => {
   const scrollPosition = useScrollPosition();
-  const { data: session } = useSession();
   const { data, hasNextPage, fetchNextPage, isFetching } =
-    trpc.tweet.timeline.useInfiniteQuery(INPUT, {
-      getNextPageParam: (lastPage) => lastPage.nextCursor,
-    });
+    trpc.tweet.timeline.useInfiniteQuery(
+      { ...INPUT, where },
+      {
+        getNextPageParam: (lastPage) => lastPage.nextCursor,
+      }
+    );
 
   const tweets = data?.pages.flatMap((page) => page.tweets) ?? [];
 
@@ -24,8 +27,7 @@ export const Timeline: React.FC = () => {
   }, [hasNextPage, isFetching, scrollPosition, fetchNextPage]);
 
   return (
-    <div className="flex flex-col gap-4 py-4">
-      {session && <CreateTweet />}
+    <div className="flex flex-col gap-4">
       <div className="flex flex-col border-t border-gray-100">
         {tweets.map((tweet) => (
           <Tweet tweet={tweet} key={tweet.id} />

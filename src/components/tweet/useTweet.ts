@@ -5,7 +5,8 @@ import { type TweetProps } from "./Tweet";
 
 // Separates component's logic from presentation logic
 export const useTweet = ({ tweet }: TweetProps) => {
-  const { author, isLiked } = tweet;
+  const { author, createdAt, text, isLiked } = tweet;
+  const { image, name } = author;
 
   const { data: session } = useSession();
   const updateLikesQueryCache = useUpdateLikesQueryCache();
@@ -29,9 +30,13 @@ export const useTweet = ({ tweet }: TweetProps) => {
   };
 
   return {
-    imageSrc: author.image,
+    imageSrc: image,
     author,
     tweet,
+    name,
+    createdAt,
+    text,
+    likesCount: tweet._count.likes,
     isLiked,
     isLikeButtonDisabled: !session,
     toggleLike,
