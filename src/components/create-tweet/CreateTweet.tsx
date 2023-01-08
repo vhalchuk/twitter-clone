@@ -1,48 +1,18 @@
-import React, { useState } from "react";
-import { trpc } from "../../utils/trpc";
-import { tweetSchema } from "../../schemas/tweet";
+import React from "react";
 import { Button } from "../button/Button";
-import { useAddTweetToQueryCache } from "./useAddTweetToQueryCache";
+import { useCreateTweet } from "./useCreateTweet";
 
 export const CreateTweet: React.FC = () => {
-  const [text, setText] = useState("");
-  const [error, setError] = useState<string | null>(null);
-  const utils = trpc.useContext();
-  const addTweetToQueryCache = useAddTweetToQueryCache();
-
-  const { mutateAsync } = trpc.tweet.createTweet.useMutation({
-    onSuccess: (newTweet) => {
-      setText("");
-      addTweetToQueryCache(newTweet);
-      utils.tweet.timeline.invalidate();
-    },
-    onError: () => {
-      setError("Failed to create tweet");
-    },
-  });
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    const result = tweetSchema.safeParse({ text });
-
-    if (result.success) {
-      mutateAsync({ text });
-      setError(null);
-    } else {
-      const message = result.error.issues[0]?.message || "Invalid input";
-      setError(message);
-    }
-  };
+  const { handleCreateTweet, text, handleChange, error } = useCreateTweet();
 
   return (
     <form
-      onSubmit={handleSubmit}
+      onSubmit={handleCreateTweet}
       className="flex w-full flex-col gap-4 rounded-md p-4"
     >
       <textarea
         value={text}
-        onChange={(e) => setText(e.target.value)}
+        onChange={handleChange}
         className={`
           h-20
           w-full
